@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ICY • Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container { width: 100%; max-width: 400px; }
+        .box {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 24px;
+            padding: 48px 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            transition: border-color 0.3s ease;
+        }
+        .box:hover { border-color: #333; }
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 8px;
+            margin-bottom: 4px;
+        }
+        .logo span { color: #00ffc8; }
+        .subtitle {
+            color: #444;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label {
+            color: #666;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .input-group input {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 14px 16px;
+            width: 100%;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+            font-family: inherit;
+        }
+        .input-group input:focus {
+            border-color: #00ffc8;
+            box-shadow: 0 0 30px rgba(0,255,200,0.05);
+        }
+        .input-group input::placeholder { color: #333; }
+        button {
+            background: #00ffc8;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 0;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            margin-top: 8px;
+        }
+        button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(0,255,200,0.15);
+        }
+        .error {
+            color: #ff0044;
+            font-size: 0.8rem;
+            margin-top: 12px;
+            min-height: 20px;
+        }
+        .footer {
+            color: #1a1a1a;
+            font-size: 0.6rem;
+            margin-top: 24px;
+            letter-spacing: 2px;
+        }
+        .hidden { display: none !important; }
+        .dashboard { text-align: left; }
+        .dashboard h2 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .link-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        .link-card:hover { border-color: #00ffc8; }
+        .link-card .label {
+            color: #666;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            min-width: 70px;
+        }
+        .link-card .url {
+            color: #00ffc8;
+            font-size: 0.65rem;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            flex: 1;
+        }
+        .link-card button {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.55rem;
+            cursor: pointer;
+            width: auto;
+            margin: 0;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .link-card button:hover {
+            border-color: #00ffc8;
+            color: #00ffc8;
+            transform: none;
+            box-shadow: none;
+        }
+        .logout-btn {
+            background: transparent !important;
+            border: 1px solid #333 !important;
+            color: #666 !important;
+            margin-top: 16px !important;
+            padding: 10px 0 !important;
+            font-size: 0.7rem !important;
+            width: 100% !important;
+        }
+        .logout-btn:hover {
+            border-color: #ff0044 !important;
+            color: #ff0044 !important;
+        }
+        .success-msg {
+            color: #00ffc8;
+            font-size: 0.8rem;
+            text-align: center;
+            margin: 12px 0 16px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="box" id="app">
+
+        <!-- ─── LOGIN ─── -->
+        <div id="login">
+            <div class="logo">ICY<span>.</span></div>
+            <div class="subtitle">secure portal</div>
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Enter username" autofocus>
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+            </div>
+            <button onclick="login()">→ ENTER</button>
+            <div class="error" id="error"></div>
+        </div>
+
+        <!-- ─── DASHBOARD ─── -->
+        <div id="dashboard" class="hidden">
+            <div class="logo" style="font-size:1.2rem; letter-spacing:4px;">ICY<span>.</span></div>
+            <div class="subtitle" style="margin-bottom:16px;">redirect links</div>
+            <div class="dashboard">
+
+                <div class="link-card">
+                    <span class="label">📁 Files</span>
+                    <span class="url" id="fbUrl">http://ebaadzkzezcqt4rwwvqfybfjjpapea2wurta3qaodhi4bbkodrveywqd.onion:8080</span>
+                    <button onclick="copyUrl('fbUrl')">Copy</button>
+                </div>
+
+                <div class="link-card">
+                    <span class="label">🏠 Local</span>
+                    <span class="url" id="localUrl">http://192.168.1.191:8080</span>
+                    <button onclick="copyUrl('localUrl')">Copy</button>
+                </div>
+
+                <div class="link-card">
+                    <span class="label">🌐 Web</span>
+                    <span class="url" id="tor2webUrl">https://ebaadzkzezcqt4rwwvqfybfjjpapea2wurta3qaodhi4bbkodrveywqd.onion.link:8080</span>
+                    <button onclick="copyUrl('tor2webUrl')">Copy</button>
+                </div>
+
+                <button class="logout-btn" onclick="logout()">→ LOGOUT</button>
+            </div>
+        </div>
+
+        <div class="footer">⚡ encrypted • private</div>
+    </div>
+</div>
+
+<script>
+    // ═══════════════════════════════════════════════════════════
+    // 🔐 SECURE HASHED PASSWORD (SHA-256)
+    // ═══════════════════════════════════════════════════════════
+    const VALID_USERNAME = "ebaad";
+    const PASSWORD_HASH = "b0e888e560227ed2e06ad1e53498799d566fb15984b2528e187c01c33d9c92e4"; // <-- YOUR HASH
+
+    // ═══════════════════════════════════════════════════════════
+
+    async function sha256(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function login() {
+        const user = document.getElementById('username').value.trim();
+        const pass = document.getElementById('password').value.trim();
+        const error = document.getElementById('error');
+
+        const enteredHash = await sha256(pass);
+
+        if (user === VALID_USERNAME && enteredHash === PASSWORD_HASH) {
+            error.textContent = '';
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+        } else {
+            error.textContent = '⛌ Invalid username or password.';
+            document.getElementById('password').value = '';
+        }
+    }
+
+    function copyUrl(elementId) {
+        const text = document.getElementById(elementId).textContent;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyFeedback('✅ Copied!');
+            }).catch(() => fallbackCopy(text));
+        } else {
+            fallbackCopy(text);
+        }
+    }
+
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showCopyFeedback('✅ Copied!');
+    }
+
+    function showCopyFeedback(msg) {
+        const el = document.createElement('div');
+        el.className = 'success-msg';
+        el.textContent = msg;
+        const box = document.querySelector('.box');
+        box.appendChild(el);
+        setTimeout(() => el.remove(), 1500);
+    }
+
+    function logout() {
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('login').classList.remove('hidden');
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('error').textContent = '';
+    }
+
+    document.getElementById('username').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') document.getElementById('password').focus();
+    });
+    document.getElementById('password').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') login();
+    });
+</script>
+
+</body>
+</html>
